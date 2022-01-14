@@ -4,14 +4,13 @@ import { DISHES } from '../shared/dishes';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
-import { Routes, Route} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Contact from './ContactComponent'
 import { COMMENTS } from '../shared/comments';
 import { PROMOTIONS } from '../shared/promotions';
 import { LEADERS } from '../shared/leaders';
 import DishDetail from "./DishdetailComponent"
-import { withRouter } from "react-router";
-
+import About from './AboutComponent';
 class Main extends Component {
 
   constructor(props) {
@@ -22,12 +21,9 @@ class Main extends Component {
       promotions: PROMOTIONS,
       leaders: LEADERS
     };
-    this.onDishSelect=this.onDishSelect.bind(this)
   }
 
-  onDishSelect(dishId) {
-    this.setState({ selectedDish: dishId});
-  }
+  
   HomePage = () => {
     return(
         <Home 
@@ -47,17 +43,18 @@ class Main extends Component {
     return (
       <div>
         <Header/>
-        <Routes>
-              <Route path='/home' element={<this.HomePage/>} />
-              <Route exact path='/menu' element={<Menu dishes={this.state.dishes} onClick1={()=>(dishId)=>this.onDishSelect(dishId)} />} />
-              <Route exact path='/contactus' element={<Contact/>}/>
-              <Route path='/menu/:dishId' element={<this.DishWithId />} />
-              <Route path='*' element={<Menu dishes={this.state.dishes} />} />
-        </Routes>
+        <Switch>
+              <Route path='/home' component={this.HomePage} />
+              <Route exact path='/contactus' component={Contact} />
+              <Route path='/menu/:dishId' component={this.DishWithId} />
+              <Route exact path='/aboutus' component={()=><About leaders={this.state.leaders}/>}/>
+              <Route exact path='/menu' component={() => <Menu dishes={this.state.dishes} />} />
+              <Redirect to="/home" />
+          </Switch>
         <Footer/>
       </div>
     );
   }
 }
 
-export default withRouter(Main);
+export default Main;

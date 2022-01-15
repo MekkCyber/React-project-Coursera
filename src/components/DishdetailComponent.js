@@ -13,6 +13,8 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Component } from "react";
+import { Loading } from './LoadingComponent';
+
 
 class CommentForm extends Component {
   constructor(props) {
@@ -25,6 +27,9 @@ class CommentForm extends Component {
       isOpen: !this.state.isOpen,
     });
   };
+  handleSubmit=(values)=>{
+    this.props.addComment(this.props.dishId,values.rating,values.author,values.comment)
+  }
   required = (val) => val && val.length;
   maxLength = (len) => (val) => !val || val.length <= len;
   minLength = (len) => (val) => val && val.length >= len;
@@ -113,7 +118,7 @@ class CommentForm extends Component {
                 </Col>
               </Row>
             </LocalForm>
-            <button type="submit" className="col-6 col-sm-2 button btn-primary">
+            <button type="submit" className="col-6 col-sm-2 button btn-primary" >
               Submit
             </button>
           </ModalBody>
@@ -139,7 +144,7 @@ function renderDish(dish) {
   );
 }
 
-function renderComments(comments) {
+function RenderComments({comments,addComment,dishId}) {
   return (
     <div>
       {comments ? (
@@ -168,13 +173,31 @@ function renderComments(comments) {
       ) : (
         <div></div>
       )}
-      <CommentForm />
+      <CommentForm addComment={addComment} dishId={dishId}/>
     </div>
   );
 }
 
 const DishDetail = (props) => {
-  return (
+    if (props.isLoading) {
+      return(
+          <div className="container">
+              <div className="row">            
+                  <Loading />
+              </div>
+          </div>
+      );
+  }
+  else if (props.errMess) {
+      return(
+          <div className="container">
+              <div className="row">            
+                  <h4>{props.errMess}</h4>
+              </div>
+          </div>
+      );
+  }
+  else if (props.dish != null) 
     <div className="container">
       <Breadcrumb>
         <BreadcrumbItem>
@@ -185,11 +208,11 @@ const DishDetail = (props) => {
       <div className="row">
         <div className="col-md-5 col-12 m-1">{renderDish(props.dish)}</div>
         <div className="col-md-5 col-12 m-1">
-          {props.dish ? renderComments(props.comments) : <div></div>}
+          {props.dish ? <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id}/> : <div></div>}
         </div>
       </div>
     </div>
-  );
+  
 };
 
 export default DishDetail;

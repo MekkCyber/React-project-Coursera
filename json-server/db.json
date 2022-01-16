@@ -201,6 +201,14 @@
       "comment": "It's your birthday, we're gonna party!",
       "author": "25 Cent",
       "date": "2011-12-02T17:57:28.556094Z"
+    },
+    {
+      "dishId": 1,
+      "rating": "2",
+      "author": "Moi",
+      "comment": "Great restaurant !\n",
+      "date": "2022-01-16T00:06:50.130Z",
+      "id": 20
     }
   ],
   "promotions": [
@@ -263,6 +271,17 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
+    },
+    {
+      "firstname": "sdsdf",
+      "lastname": "sdfsdf",
+      "telnum": "0000",
+      "email": "sdf@sdf.sdf",
+      "agree": true,
+      "contactType": "Email",
+      "message": "sdfsdfsdf",
+      "date": "2022-01-16T02:20:25.381Z",
+      "id": 2
     }
   ]
 }
